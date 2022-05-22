@@ -1,9 +1,10 @@
 import { Container, MovieList, Movie } from './styles'
 import { useState, useEffect } from 'react'
 import { apiKey } from '../../config/key'
+import { Link } from 'react-router-dom'
 
 function Home() {
-  const [movies, setMovies] = useState([])
+  const [movies, setMovie] = useState([])
   const image_path = 'https://image.tmdb.org/t/p/w500/'
 
   useEffect(() => {
@@ -11,7 +12,7 @@ function Home() {
       `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`
     )
       .then(response => response.json())
-      .then(data => setMovies(data.results))
+      .then(data => setMovie(data.results))
   }, [])
 
   return (
@@ -21,12 +22,12 @@ function Home() {
         {movies.map(movie => {
           return (
             <Movie key={movie.id}>
-              <a href="#">
+              <Link to={`/details/${movie.id}`}>
                 <img
                   src={`${image_path}${movie.poster_path}`}
                   alt={movie.title}
                 />
-              </a>
+              </Link>
 
               <span>{movie.title}</span>
             </Movie>
